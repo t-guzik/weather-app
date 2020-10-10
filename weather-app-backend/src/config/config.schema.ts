@@ -1,0 +1,121 @@
+import convict, { Schema, SchemaObj } from 'convict';
+import { Environment } from '../common/enums/environment.enum';
+import { CONFIG_DEFAULTS } from './config.constants';
+import { ConfigSchemaInterface, ServerConfig } from './config.interfaces';
+
+const { API_VERSION, CORS_METHODS, CORS_ORIGIN, DEBUG, GRACEFUL_SHUTDOWN_TIMEOUT_MS, LOGGER, PORT, REQUEST_LOGGER } = CONFIG_DEFAULTS;
+
+const configSchema: Schema<ConfigSchemaInterface> = {
+  cors: {
+    origin: {
+      doc: 'Configures the Access-Control-Allow-Origin CORS header',
+      format: String,
+      default: CORS_ORIGIN,
+      env: 'CORS_ORIGIN',
+    },
+    methods: {
+      doc: 'Configures the Access-Control-Allow-Methods CORS header; methods separated by comma',
+      format: String,
+      default: CORS_METHODS,
+      env: 'CORS_METHODS',
+    },
+    allowedHeaders: {
+      doc: 'Configures the Access-Control-Allow-Headers CORS header',
+      format: function check(val: any) {
+        if (!!val && typeof val !== 'string') {
+          throw new Error("must be a comma-delimited string (ex: 'Content-Type,Authorization')");
+        }
+      },
+      default: null,
+      env: 'CORS_HEADERS',
+    },
+  },
+  db: {
+    database: {
+      doc: 'Database name',
+      format: String,
+      default: null,
+      env: 'DATABASE_NAME',
+    },
+  },
+  debug: {
+    doc: 'Runs application in debug mode (additional logs)',
+    format: Boolean,
+    default: DEBUG,
+    env: 'DEBUG',
+  },
+  env: {
+    doc: 'The application environment.',
+    format: [Environment.Production, Environment.Development, Environment.Stage, Environment.Test, Environment.Local],
+    default: null,
+    env: 'ENV',
+  },
+  gracefulShutdown: {
+    timeoutMs: {
+      doc: 'Graceful shutdown timeout in millis',
+      format: Number,
+      default: GRACEFUL_SHUTDOWN_TIMEOUT_MS,
+      env: 'GRACEFUL_SHUTDOWN_TIMEOUT',
+    },
+  },
+  logger: {
+    colorized: {
+      doc: 'Colorized logs',
+      format: Boolean,
+      default: LOGGER.COLORIZED,
+      env: 'LOGGER_COLORIZED',
+    },
+    level: {
+      format: String,
+      default: LOGGER.LEVEL,
+      env: 'LOGGER_LEVEL',
+    },
+    enabled: {
+      format: Boolean,
+      default: LOGGER.ENABLED,
+      env: 'LOGGER_ENABLED',
+    },
+  },
+  requestLogger: {
+    enabled: {
+      format: Boolean,
+      default: REQUEST_LOGGER.ENABLED,
+      env: 'REQUEST_LOGGER_ENABLED',
+    },
+    details: {
+      doc: 'Show request logger details',
+      format: Boolean,
+      default: REQUEST_LOGGER.DETAILS,
+      env: 'REQUEST_LOGGER_DETAILS',
+    },
+  },
+  server: {
+    get apiPrefix() {
+      return {
+        doc: 'API global prefix',
+        format: String,
+        default: '/api/v' + (process.env.API_VERSION || ((this as Schema<ServerConfig>).apiVersion as SchemaObj).default),
+        env: 'API_PREFIX',
+      };
+    },
+    apiVersion: {
+      doc: 'API version number',
+      format: Number,
+      default: API_VERSION,
+      env: 'API_VERSION',
+    },
+    port: {
+      format: 'port',
+      default: PORT,
+      env: 'PORT',
+    },
+    version: {
+      doc: 'App version',
+      format: String,
+      default: null,
+      env: 'npm_package_version',
+    },
+  },
+};
+
+export const config = convict(configSchema);
