@@ -6,7 +6,7 @@ export const IsNotBlank = (validationOptions?: ValidationOptions) => (object: ob
     target: object.constructor,
     propertyName,
     options: {
-      message: 'Cannot be empty!',
+      message: 'Cannot be empty',
       ...validationOptions,
     },
     validator: {

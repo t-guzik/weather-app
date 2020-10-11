@@ -3,7 +3,17 @@ import { Environment } from '../common/enums/environment.enum';
 import { CONFIG_DEFAULTS } from './config.constants';
 import { ConfigSchemaInterface, ServerConfig } from './config.interfaces';
 
-const { API_VERSION, CORS_METHODS, CORS_ORIGIN, DEBUG, GRACEFUL_SHUTDOWN_TIMEOUT_MS, LOGGER, PORT, REQUEST_LOGGER } = CONFIG_DEFAULTS;
+const {
+  API_VERSION,
+  CORS_METHODS,
+  CORS_ORIGIN,
+  DEBUG,
+  GRACEFUL_SHUTDOWN_TIMEOUT_MS,
+  LOGGER,
+  PORT,
+  REQUEST_LOGGER,
+  WEATHER_CACHE_TTL_MS,
+} = CONFIG_DEFAULTS;
 
 const configSchema: Schema<ConfigSchemaInterface> = {
   cors: {
@@ -114,6 +124,20 @@ const configSchema: Schema<ConfigSchemaInterface> = {
       format: String,
       default: null,
       env: 'npm_package_version',
+    },
+  },
+  weather: {
+    cacheTtlMs: {
+      doc: 'Weather API cache TTL in minutes',
+      format: Number,
+      default: WEATHER_CACHE_TTL_MS,
+      env: 'WEATHER_CACHE_TTL_MS',
+    },
+    url: {
+      doc: 'Weather API url',
+      format: String,
+      default: null,
+      env: 'WEATHER_API_URL',
     },
   },
 };

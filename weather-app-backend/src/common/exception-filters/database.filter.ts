@@ -10,7 +10,7 @@ export class DatabaseExceptionFilter implements ExceptionFilter {
   constructor(private readonly showDetails: boolean, private readonly logger: LoggerService) {}
 
   catch(exception: QueryFailedErrorInterface, host: ArgumentsHost) {
-    const defaultError = { message: exception.detail || 'Database error!' };
+    const defaultError = { message: exception.detail || 'Database error' };
     const databaseException = new DatabaseError(this.showDetails ? exception : defaultError);
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();

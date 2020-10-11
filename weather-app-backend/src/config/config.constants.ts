@@ -14,4 +14,5 @@ export const CONFIG_DEFAULTS = {
     DETAILS: false,
     ENABLED: true,
   },
+  WEATHER_CACHE_TTL_MS: 5 * 60 * 1000, // 5 minutes
 };

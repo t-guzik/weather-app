@@ -16,11 +16,12 @@ export interface ConfigSchemaInterface {
   logger: LoggerConfig;
   requestLogger: RequestLoggerConfig;
   server: ServerConfig;
+  weather: WeatherApiConfig;
 }
 
 export interface ServerConfig {
   apiPrefix: string;
-  apiVersion: number
+  apiVersion: number;
   port: number;
   version: string;
 }
@@ -42,3 +43,7 @@ export interface LoggerConfig {
   level: string;
 }
 
+export interface WeatherApiConfig {
+  cacheTtlMs: number;
+  url: string;
+}

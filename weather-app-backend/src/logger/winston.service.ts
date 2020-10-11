@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Chalk, Instance } from 'chalk';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import util from 'util';
 import { config, createLogger, format, Logger, transports } from 'winston';
 import { ConfigService } from '../config/config.service';
@@ -49,7 +49,7 @@ export class WinstonService {
       default:
         return this.chalk.gray(upperCasedLevel);
     }
-  }
+  };
 
   private readonly formatMeta = (meta: any = {}) => {
     if (typeof meta === 'string') {
@@ -59,7 +59,7 @@ export class WinstonService {
     const hasKeys = Object.keys(meta).length > 0;
 
     return hasKeys ? `\n${util.inspect(meta, { depth: null, colors: true })}` : '';
-  }
+  };
 
-  private readonly getTime = () => this.chalk.blue(moment().format('HH:mm:ss.SSS DD-MM-YYYY'));
+  private readonly getTime = () => this.chalk.blue(DateTime.local().toFormat('TT.SSS dd-LL-yyyy'));
 }

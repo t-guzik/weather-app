@@ -4,7 +4,7 @@ import { SqliteConnectionOptions } from 'typeorm/driver/sqlite/SqliteConnectionO
 import { Environment } from '../common/enums/environment.enum';
 import { formatError } from '../common/errors/utils/format-error.util';
 import { LoggerService } from '../logger/logger.service';
-import { ConfigSchemaInterface, CorsConfig, LoggerConfig, RequestLoggerConfig, ServerConfig } from './config.interfaces';
+import { ConfigSchemaInterface, CorsConfig, LoggerConfig, RequestLoggerConfig, ServerConfig, WeatherApiConfig } from './config.interfaces';
 import { config as configSchema } from './config.schema';
 import * as config from './environments';
 
@@ -78,6 +78,13 @@ export class ConfigService {
     };
   }
 
+  getWeatherApiConfig(): WeatherApiConfig {
+    return {
+      cacheTtlMs: this.getValue('weather', 'cacheTtlMs'),
+      url: this.getValue('weather', 'url'),
+    };
+  }
+
   getServerConfig(): ServerConfig {
     return {
       apiVersion: this.getValue('server', 'apiVersion'),
@@ -98,7 +105,7 @@ export class ConfigService {
   validate(logger: LoggerService): void {
     try {
       this.config.validate({ allowed: 'strict' });
-      logger.log('Successful config validation!');
+      logger.log('Successful config validation');
     } catch (error) {
       logger.error(error.message, error);
     }

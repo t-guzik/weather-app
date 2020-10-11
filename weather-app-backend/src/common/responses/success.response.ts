@@ -4,7 +4,7 @@ export class SuccessResponse {
   @ApiProperty()
   success: boolean;
 
-  constructor(success: boolean = true) {
+  constructor(success = true) {
     this.success = success;
   }
 }

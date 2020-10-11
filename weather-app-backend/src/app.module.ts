@@ -4,17 +4,19 @@ import { TerminusModule } from '@nestjs/terminus';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LogRequestInterceptor } from './common/interceptors/log-request.interceptor';
 import { ConfigModule } from './config/config.module';
-import { TypeOrmConfigService } from './config/typeorm-config.service';
+import { TypeOrmConfigService } from './config/services-config/typeorm-config.service';
 import { LoggerModule } from './logger/logger.module';
+import { MetaWeatherModule } from './weather-data-provider/meta-weather/meta-weather.module';
+import { WeatherModule } from './weather/weather.module';
 
 @Module({
   imports: [
+    TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
     TerminusModule,
     ConfigModule,
     LoggerModule,
-    TypeOrmModule.forRootAsync({
-      useClass: TypeOrmConfigService,
-    }),
+    WeatherModule,
+    MetaWeatherModule,
   ],
   providers: [
     {
