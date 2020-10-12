@@ -20,7 +20,7 @@ export class MetaWeatherService implements WeatherDataProvider {
   async getWeatherForCityByDate(city: string, date: DateTime): Promise<Weather | null> {
     const cachedWeatherData = await this.repository.findOne({
       where: {
-        location: city,
+        city,
         date: date.toSQLDate(),
         updatedAt: MoreThanOrEqual(this.getMaxValidCacheUTCDate().toSQL()),
       },
@@ -36,7 +36,7 @@ export class MetaWeatherService implements WeatherDataProvider {
     }
 
     const metaWeatherEntity = new MetaWeather({
-      location: city,
+      city,
       date: weatherData.applicable_date,
       state: weatherData.weather_state_name,
       windDirection: weatherData.wind_direction,
@@ -65,7 +65,7 @@ export class MetaWeatherService implements WeatherDataProvider {
 
     const cachedWeatherData = await this.repository.find({
       where: {
-        location: city,
+        city,
         date: Between(startUTCDate, endUTCDate),
         updatedAt: MoreThanOrEqual(this.getMaxValidCacheUTCDate().toSQL()),
       },
@@ -83,7 +83,7 @@ export class MetaWeatherService implements WeatherDataProvider {
     const entities = weatherData.consolidated_weather.map(
       cw =>
         new MetaWeather({
-          location: city,
+          city,
           date: cw.applicable_date,
           state: cw.weather_state_name,
           windDirection: cw.wind_direction,

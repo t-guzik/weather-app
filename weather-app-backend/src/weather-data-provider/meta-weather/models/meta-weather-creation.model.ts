@@ -2,7 +2,7 @@ import { MetaWeather } from '../meta-weather.entity';
 
 export type MetaWeatherCreation = Pick<
   MetaWeather,
-  | 'location'
+  | 'city'
   | 'date'
   | 'state'
   | 'windDirection'

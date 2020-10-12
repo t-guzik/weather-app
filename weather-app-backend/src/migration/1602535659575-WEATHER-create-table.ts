@@ -6,7 +6,7 @@ export class WEATHERCreateTable1602535659575 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`CREATE TABLE IF NOT EXISTS "weather"
                              (
-                                 "location"       text     NOT NULL,
+                                 "city"           text     NOT NULL,
                                  "date"           date     NOT NULL,
                                  "state"          text     NOT NULL,
                                  "wind_direction" float    NOT NULL,
@@ -20,7 +20,7 @@ export class WEATHERCreateTable1602535659575 implements MigrationInterface {
                                  "icon_url"       text     NOT NULL,
                                  "created_at"     datetime NOT NULL DEFAULT (datetime('now')),
                                  "updated_at"     datetime NOT NULL DEFAULT (datetime('now')),
-                                 PRIMARY KEY ("location", "date")
+                                 PRIMARY KEY ("city", "date")
                              )`);
   }
 

@@ -7,7 +7,7 @@ import { MetaWeatherCreation } from './models/meta-weather-creation.model';
 export class MetaWeather implements Weather {
   @ApiProperty()
   @PrimaryColumn('text')
-  location!: string;
+  city!: string;
 
   @ApiProperty()
   @PrimaryColumn('date')

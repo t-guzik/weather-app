@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class Weather {
   @ApiProperty()
-  location!: string;
+  city!: string;
 
   @ApiProperty()
   date!: string;
