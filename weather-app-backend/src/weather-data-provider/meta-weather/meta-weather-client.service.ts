@@ -2,15 +2,15 @@ import { HttpService, Injectable } from '@nestjs/common';
 import { DateTime } from 'luxon';
 import { DataProviderFetchError } from '../errors/data-provider-fetch.error';
 import { WeatherStateEnum } from './enums/weather-state.enum';
-import { ConsolidatedWeatherInterface } from './interfaces/consolidated-weather.interface';
-import { LocationSearchInterface } from './interfaces/location-search.interface';
-import { LocationWeatherInterface } from './interfaces/location-weather.interface';
+import { ConsolidatedWeather } from './interfaces/consolidated-weather.interface';
+import { LocationSearch } from './interfaces/location.search';
+import { LocationWeather } from './interfaces/location.weather';
 
 @Injectable()
 export class MetaWeatherClientService {
   constructor(private readonly metaWeatherClient: HttpService) {}
 
-  async fetchWeatherForecastForCity(city: string): Promise<LocationWeatherInterface | null> {
+  async fetchWeatherForecastForCity(city: string): Promise<LocationWeather | null> {
     const locationSearchResult = await this.fetchLocationByCity(city);
     if (!locationSearchResult) {
       return null;
@@ -19,7 +19,7 @@ export class MetaWeatherClientService {
     return this.fetchWeatherForecastByLocation(locationSearchResult);
   }
 
-  async fetchWeatherForCityByDate(city: string, date: DateTime): Promise<ConsolidatedWeatherInterface | null> {
+  async fetchWeatherForCityByDate(city: string, date: DateTime): Promise<ConsolidatedWeather | null> {
     const locationSearchResult = await this.fetchLocationByCity(city);
     if (!locationSearchResult) {
       return null;
@@ -37,9 +37,9 @@ export class MetaWeatherClientService {
    * @param woeid
    * @private
    */
-  private async fetchWeatherForecastByLocation({ woeid }: LocationSearchInterface): Promise<LocationWeatherInterface> {
+  private async fetchWeatherForecastByLocation({ woeid }: LocationSearch): Promise<LocationWeather> {
     try {
-      const { data } = await this.metaWeatherClient.get<LocationWeatherInterface>(`location/${woeid}`).toPromise();
+      const { data } = await this.metaWeatherClient.get<LocationWeather>(`location/${woeid}`).toPromise();
 
       return data;
     } catch (error) {
@@ -47,12 +47,9 @@ export class MetaWeatherClientService {
     }
   }
 
-  private async fetchWeatherForDayByLocation(
-    { woeid }: LocationSearchInterface,
-    { year, month, day }: DateTime,
-  ): Promise<ConsolidatedWeatherInterface | null> {
+  private async fetchWeatherForDayByLocation({ woeid }: LocationSearch, { year, month, day }: DateTime): Promise<ConsolidatedWeather | null> {
     try {
-      const { data } = await this.metaWeatherClient.get<ConsolidatedWeatherInterface[]>(`location/${woeid}/${year}/${month}/${day}`).toPromise();
+      const { data } = await this.metaWeatherClient.get<ConsolidatedWeather[]>(`location/${woeid}/${year}/${month}/${day}`).toPromise();
       const exists = data && data[0];
 
       return exists ? data[0] : null; // take first element for simplicity
@@ -61,10 +58,10 @@ export class MetaWeatherClientService {
     }
   }
 
-  private async fetchLocationByCity(city: string): Promise<LocationSearchInterface | null> {
+  private async fetchLocationByCity(city: string): Promise<LocationSearch | null> {
     try {
       const { data } = await this.metaWeatherClient
-        .get<LocationSearchInterface[]>('location/search', { params: { query: city } })
+        .get<LocationSearch[]>('location/search', { params: { query: city } })
         .toPromise();
       const exists = data && data[0];
 

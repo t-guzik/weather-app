@@ -1,6 +1,6 @@
 import { WeatherStateEnum } from '../enums/weather-state.enum';
 
-export interface ConsolidatedWeatherInterface {
+export interface ConsolidatedWeather {
   id: number; // 5921829770231808
   weather_state_name: string; // 'Light Rain'
   weather_state_abbr: WeatherStateEnum; // 'lr'

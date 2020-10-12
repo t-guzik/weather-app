@@ -1,13 +1,11 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class WEATHERCreateTable1602453280335 implements MigrationInterface {
-  name = 'WEATHERCreateTable1602453280335';
+export class WEATHERCreateTable1602535659575 implements MigrationInterface {
+  name = 'WEATHERCreateTable1602535659575';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`CREATE TABLE IF NOT EXISTS "weather"
                              (
-                                 "created_at"     datetime NOT NULL DEFAULT (datetime('now')),
-                                 "updated_at"     datetime NOT NULL DEFAULT (datetime('now')),
                                  "location"       text     NOT NULL,
                                  "date"           date     NOT NULL,
                                  "state"          text     NOT NULL,
@@ -20,6 +18,8 @@ export class WEATHERCreateTable1602453280335 implements MigrationInterface {
                                  "max_temp"       float,
                                  "avg_temp"       float,
                                  "icon_url"       text     NOT NULL,
+                                 "created_at"     datetime NOT NULL DEFAULT (datetime('now')),
+                                 "updated_at"     datetime NOT NULL DEFAULT (datetime('now')),
                                  PRIMARY KEY ("location", "date")
                              )`);
   }

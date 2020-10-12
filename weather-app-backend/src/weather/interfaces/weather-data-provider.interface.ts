@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
-import { WeatherInterface } from '../../weather-data-provider/interfaces/weather.interface';
+import { Weather } from '../../weather-data-provider/models/weather.model';
 
-export interface WeatherDataProviderInterface {
-  getWeatherForecastForCity(city: string): Promise<WeatherInterface[] | null>;
-  getWeatherForCityByDate(city: string, date: DateTime): Promise<WeatherInterface | null>;
+export interface WeatherDataProvider {
+  getWeatherForecastForCity(city: string): Promise<Weather[] | null>;
+  getWeatherForCityByDate(city: string, date: DateTime): Promise<Weather | null>;
 }

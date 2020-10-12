@@ -13,6 +13,7 @@ const {
   PORT,
   REQUEST_LOGGER,
   WEATHER_CACHE_TTL_MS,
+  WEATHER_FORECAST_DAYS,
 } = CONFIG_DEFAULTS;
 
 const configSchema: Schema<ConfigSchemaInterface> = {
@@ -128,16 +129,22 @@ const configSchema: Schema<ConfigSchemaInterface> = {
   },
   weather: {
     cacheTtlMs: {
-      doc: 'Weather API cache TTL in minutes',
+      doc: 'Weather cache TTL in minutes',
       format: Number,
       default: WEATHER_CACHE_TTL_MS,
       env: 'WEATHER_CACHE_TTL_MS',
     },
-    url: {
+    apiUrl: {
       doc: 'Weather API url',
       format: String,
       default: null,
       env: 'WEATHER_API_URL',
+    },
+    forecastDays: {
+      doc: 'Weather forecast days',
+      format: Number,
+      default: WEATHER_FORECAST_DAYS,
+      env: 'WEATHER_FORECAST_DAYS',
     },
   },
 };

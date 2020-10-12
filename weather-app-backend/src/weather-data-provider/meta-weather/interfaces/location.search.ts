@@ -1,4 +1,4 @@
-export interface LocationSearchInterface {
+export interface LocationSearch {
   title: string; // 'London';
   location_type: 'City' | 'Region' | 'State' | 'Province' | 'Country' | 'Continent';
   woeid: number; // 44418 - where on earth id

@@ -1,9 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, PrimaryColumn } from 'typeorm';
-import { CommonTimestampsEntity } from '../../common/entities/common-timestamps.entity';
+import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Weather } from '../models/weather.model';
+import { MetaWeatherCreation } from './models/meta-weather-creation.model';
 
 @Entity({ name: 'weather' })
-export class MetaWeatherEntity extends CommonTimestampsEntity {
+export class MetaWeather implements Weather {
   @ApiProperty()
   @PrimaryColumn('text')
   location!: string;
@@ -51,4 +52,16 @@ export class MetaWeatherEntity extends CommonTimestampsEntity {
   @ApiProperty()
   @Column('text')
   iconUrl!: string;
+
+  @ApiProperty({ format: 'date-time' })
+  @CreateDateColumn()
+  createdAt!: string;
+
+  @ApiProperty({ format: 'date-time' })
+  @UpdateDateColumn()
+  updatedAt!: string;
+
+  constructor(creationModel: MetaWeatherCreation) {
+    Object.assign(this, creationModel);
+  }
 }

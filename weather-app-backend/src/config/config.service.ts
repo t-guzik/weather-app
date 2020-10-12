@@ -4,7 +4,7 @@ import { SqliteConnectionOptions } from 'typeorm/driver/sqlite/SqliteConnectionO
 import { Environment } from '../common/enums/environment.enum';
 import { formatError } from '../common/errors/utils/format-error.util';
 import { LoggerService } from '../logger/logger.service';
-import { ConfigSchemaInterface, CorsConfig, LoggerConfig, RequestLoggerConfig, ServerConfig, WeatherApiConfig } from './config.interfaces';
+import { ConfigSchemaInterface, CorsConfig, LoggerConfig, RequestLoggerConfig, ServerConfig, WeatherConfig } from './config.interfaces';
 import { config as configSchema } from './config.schema';
 import * as config from './environments';
 
@@ -78,10 +78,11 @@ export class ConfigService {
     };
   }
 
-  getWeatherApiConfig(): WeatherApiConfig {
+  getWeatherConfig(): WeatherConfig {
     return {
       cacheTtlMs: this.getValue('weather', 'cacheTtlMs'),
-      url: this.getValue('weather', 'url'),
+      apiUrl: this.getValue('weather', 'apiUrl'),
+      forecastDays: this.getValue('weather', 'forecastDays'),
     };
   }
 

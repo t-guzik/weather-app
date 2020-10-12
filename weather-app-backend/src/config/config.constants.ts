@@ -15,4 +15,5 @@ export const CONFIG_DEFAULTS = {
     ENABLED: true,
   },
   WEATHER_CACHE_TTL_MS: 5 * 60 * 1000, // 5 minutes
+  WEATHER_FORECAST_DAYS: 5,
 };

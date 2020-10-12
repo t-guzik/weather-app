@@ -2,17 +2,17 @@ import { HttpModule, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService } from '../../config/config.service';
 import { MetaWeatherClientService } from './meta-weather-client.service';
-import { MetaWeatherEntity } from './meta-weather.entity';
+import { MetaWeather } from './meta-weather.entity';
 import { MetaWeatherService } from './meta-weather.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([MetaWeatherEntity]),
+    TypeOrmModule.forFeature([MetaWeather]),
     HttpModule.registerAsync({
       useFactory: (configService: ConfigService) => {
-        const { url } = configService.getWeatherApiConfig();
+        const { apiUrl } = configService.getWeatherConfig();
 
-        return { baseURL: url };
+        return { baseURL: apiUrl };
       },
       inject: [ConfigService],
     }),
