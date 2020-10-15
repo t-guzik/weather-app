@@ -60,7 +60,10 @@ export class MetaWeatherService implements WeatherDataProvider {
   async getWeatherForecastForCity(city: string): Promise<Weather[] | null> {
     const { forecastDays } = this.configService.getWeatherConfig();
     const startUTCDate = nowUTC().endOf('day').minus({ day: 1 }).toSQL();
-    const endUTCDate = nowUTC().startOf('day').plus({ days: forecastDays }).toSQL();
+    const endUTCDate = nowUTC()
+      .endOf('day')
+      .plus({ days: forecastDays - 1 })
+      .toSQL();
 
     const cachedWeatherData = await this.repository.find({
       where: {
