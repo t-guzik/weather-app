@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@enums/*": ["types/enums/*"],
+      "@errors/*": ["errors/*"],
+      "@interfaces/*": ["types/interfaces/*"],
+      "@hooks/*": ["hooks/*"],
+      "@locales/*": ["locales/*"],
+      "@routes/*": ["routes/*"],
+      "@store/*": ["store/*"],
+      "@styles/*": ["styles/*"],
+      "@queries/*": ["queries/*"],
+      "@utils/*": ["utils/*"]
+    }
+  }
+}

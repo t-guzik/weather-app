@@ -1,4 +1,4 @@
-export enum WeatherStateEnum {
+export enum WeatherState {
   SNOW = 'sn',
   SLEET = 'sl',
   HAIL = 'h',

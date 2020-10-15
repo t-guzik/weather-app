@@ -1,7 +1,6 @@
 import { HttpService, Injectable } from '@nestjs/common';
 import { DateTime } from 'luxon';
 import { DataProviderFetchError } from '../errors/data-provider-fetch.error';
-import { WeatherStateEnum } from './enums/weather-state.enum';
 import { ConsolidatedWeather } from './interfaces/consolidated-weather.interface';
 import { LocationSearch } from './interfaces/location.search';
 import { LocationWeather } from './interfaces/location.weather';
@@ -10,49 +9,38 @@ import { LocationWeather } from './interfaces/location.weather';
 export class MetaWeatherClientService {
   constructor(private readonly metaWeatherClient: HttpService) {}
 
-  async fetchWeatherForecastForCity(city: string): Promise<LocationWeather | null> {
-    const locationSearchResult = await this.fetchLocationByCity(city);
-    if (!locationSearchResult) {
+  async fetchWeatherForCityByDate(city: string, { year, month, day }: DateTime): Promise<(ConsolidatedWeather & { city: string }) | null> {
+    const locationSearch = await this.fetchLocationByCity(city);
+    if (!locationSearch) {
       return null;
     }
 
-    return this.fetchWeatherForecastByLocation(locationSearchResult);
-  }
-
-  async fetchWeatherForCityByDate(city: string, date: DateTime): Promise<ConsolidatedWeather | null> {
-    const locationSearchResult = await this.fetchLocationByCity(city);
-    if (!locationSearchResult) {
-      return null;
-    }
-
-    return this.fetchWeatherForDayByLocation(locationSearchResult, date);
-  }
-
-  getWeatherStateIconUrl(state: WeatherStateEnum): string {
-    return `https://www.metaweather.com/static/img/weather/${state}.svg`;
-  }
-
-  /**
-   * 5 days forecast
-   * @param woeid
-   * @private
-   */
-  private async fetchWeatherForecastByLocation({ woeid }: LocationSearch): Promise<LocationWeather> {
     try {
-      const { data } = await this.metaWeatherClient.get<LocationWeather>(`location/${woeid}`).toPromise();
+      const { data } = await this.metaWeatherClient
+        .get<ConsolidatedWeather[]>(`location/${locationSearch.woeid}/${year}/${month}/${day}`)
+        .toPromise();
+      const exists = data && data[0];
 
-      return data;
+      return exists ? { ...data[0], city: locationSearch.title } : null; // taking first element for simplicity
     } catch (error) {
       throw new DataProviderFetchError('Getting weather for city error', { error });
     }
   }
 
-  private async fetchWeatherForDayByLocation({ woeid }: LocationSearch, { year, month, day }: DateTime): Promise<ConsolidatedWeather | null> {
-    try {
-      const { data } = await this.metaWeatherClient.get<ConsolidatedWeather[]>(`location/${woeid}/${year}/${month}/${day}`).toPromise();
-      const exists = data && data[0];
+  /**
+   * 6-day weather forecast
+   * @param city
+   */
+  async fetchWeatherForecastForCity(city: string): Promise<LocationWeather | null> {
+    const locationSearch = await this.fetchLocationByCity(city);
+    if (!locationSearch) {
+      return null;
+    }
 
-      return exists ? data[0] : null; // take first element for simplicity
+    try {
+      const { data } = await this.metaWeatherClient.get<LocationWeather>(`location/${locationSearch.woeid}`).toPromise();
+
+      return data;
     } catch (error) {
       throw new DataProviderFetchError('Getting weather for city error', { error });
     }

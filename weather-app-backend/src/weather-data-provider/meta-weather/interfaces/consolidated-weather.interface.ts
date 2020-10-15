@@ -1,9 +1,9 @@
-import { WeatherStateEnum } from '../enums/weather-state.enum';
+import { WeatherState } from '../enums/weather-state.enum';
 
 export interface ConsolidatedWeather {
   id: number; // 5921829770231808
   weather_state_name: string; // 'Light Rain'
-  weather_state_abbr: WeatherStateEnum; // 'lr'
+  weather_state_abbr: WeatherState; // 'lr'
   wind_direction_compass: string; // 'W'
   created: string; // '2020-10-10T21:20:02.016573Z'
   applicable_date: string; // '2020-10-10'

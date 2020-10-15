@@ -4,8 +4,11 @@ export type MetaWeatherCreation = Pick<
   MetaWeather,
   | 'city'
   | 'date'
+  | 'query'
   | 'state'
+  | 'stateAbbr'
   | 'windDirection'
+  | 'windDirectionCompass'
   | 'windSpeed'
   | 'airPressure'
   | 'humidity'
@@ -13,6 +16,5 @@ export type MetaWeatherCreation = Pick<
   | 'minTemp'
   | 'maxTemp'
   | 'avgTemp'
-  | 'iconUrl'
 > &
   Partial<Pick<MetaWeather, 'updatedAt'>>;

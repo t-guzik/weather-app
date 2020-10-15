@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
+aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <title>Percentage</title>
+  <desc>A line styled icon from Orion Icon Library.</desc>
+  <circle data-name="layer2"
+  cx="12" cy="14" r="10" fill="none" stroke="#ffffff" stroke-miterlimit="10"
+  stroke-width="3" stroke-linejoin="round" stroke-linecap="round"></circle>
+  <circle data-name="layer2" cx="52" cy="50" r="10" fill="none"
+  stroke="#ffffff" stroke-miterlimit="10" stroke-width="3" stroke-linejoin="round"
+  stroke-linecap="round"></circle>
+  <path data-name="layer1" fill="none" stroke="#ffffff" stroke-miterlimit="10"
+  stroke-width="3" d="M56 6L8 58" stroke-linejoin="round" stroke-linecap="round"></path>
+</svg>

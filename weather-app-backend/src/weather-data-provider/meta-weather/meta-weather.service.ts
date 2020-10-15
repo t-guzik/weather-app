@@ -20,7 +20,7 @@ export class MetaWeatherService implements WeatherDataProvider {
   async getWeatherForCityByDate(city: string, date: DateTime): Promise<Weather | null> {
     const cachedWeatherData = await this.repository.findOne({
       where: {
-        city,
+        query: city,
         date: date.toSQLDate(),
         updatedAt: MoreThanOrEqual(this.getMaxValidCacheUTCDate().toSQL()),
       },
@@ -36,10 +36,13 @@ export class MetaWeatherService implements WeatherDataProvider {
     }
 
     const metaWeatherEntity = new MetaWeather({
-      city,
+      query: city,
+      city: weatherData.city,
       date: weatherData.applicable_date,
       state: weatherData.weather_state_name,
+      stateAbbr: weatherData.weather_state_abbr,
       windDirection: weatherData.wind_direction,
+      windDirectionCompass: weatherData.wind_direction_compass,
       windSpeed: weatherData.wind_speed,
       airPressure: weatherData.air_pressure,
       humidity: weatherData.humidity,
@@ -47,7 +50,6 @@ export class MetaWeatherService implements WeatherDataProvider {
       minTemp: weatherData.min_temp,
       maxTemp: weatherData.max_temp,
       avgTemp: weatherData.the_temp,
-      iconUrl: this.clientService.getWeatherStateIconUrl(weatherData.weather_state_abbr),
       // "updatedAt" is passed in order to update row even if weather data are the same
       updatedAt: nowUTC().toSQL(),
     });
@@ -57,15 +59,12 @@ export class MetaWeatherService implements WeatherDataProvider {
 
   async getWeatherForecastForCity(city: string): Promise<Weather[] | null> {
     const { forecastDays } = this.configService.getWeatherConfig();
-    const startUTCDate = nowUTC().startOf('day').minus({ day: 1 }).toSQL();
-    const endUTCDate = nowUTC()
-      .startOf('day')
-      .plus({ days: forecastDays - 1 })
-      .toSQL();
+    const startUTCDate = nowUTC().endOf('day').minus({ day: 1 }).toSQL();
+    const endUTCDate = nowUTC().startOf('day').plus({ days: forecastDays }).toSQL();
 
     const cachedWeatherData = await this.repository.find({
       where: {
-        city,
+        query: city,
         date: Between(startUTCDate, endUTCDate),
         updatedAt: MoreThanOrEqual(this.getMaxValidCacheUTCDate().toSQL()),
       },
@@ -83,10 +82,13 @@ export class MetaWeatherService implements WeatherDataProvider {
     const entities = weatherData.consolidated_weather.map(
       cw =>
         new MetaWeather({
-          city,
+          query: city,
+          city: weatherData.title,
           date: cw.applicable_date,
           state: cw.weather_state_name,
+          stateAbbr: cw.weather_state_abbr,
           windDirection: cw.wind_direction,
+          windDirectionCompass: cw.wind_direction_compass,
           windSpeed: cw.wind_speed,
           airPressure: cw.air_pressure,
           humidity: cw.humidity,
@@ -94,7 +96,6 @@ export class MetaWeatherService implements WeatherDataProvider {
           minTemp: cw.min_temp,
           maxTemp: cw.max_temp,
           avgTemp: cw.the_temp,
-          iconUrl: this.clientService.getWeatherStateIconUrl(cw.weather_state_abbr),
           // "updatedAt" is passed in order to update row even if weather data are the same
           updatedAt: nowUTC().toSQL(),
         }),

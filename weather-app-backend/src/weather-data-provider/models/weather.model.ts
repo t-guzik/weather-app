@@ -13,6 +13,9 @@ export class Weather {
   @ApiProperty({ description: 'degrees' })
   windDirection!: number;
 
+  @ApiProperty()
+  windDirectionCompass!: string;
+
   @ApiProperty({ description: 'mph' })
   windSpeed!: number;
 
@@ -34,7 +37,7 @@ export class Weather {
   @ApiProperty({ description: 'centigrade', required: false })
   avgTemp?: number;
 
-  @ApiProperty()
+  @ApiProperty({ format: 'hostname' })
   iconUrl!: string;
 
   @ApiProperty({ format: 'date-time' })
