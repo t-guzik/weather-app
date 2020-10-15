@@ -1,8 +1,0 @@
-@import '../../../styles/effects';
-@import '../../../styles/spacing';
-
-.box {
-  padding: calc(2 * #{$defaultSpacing});
-  height: 100%;
-  overflow: hidden;
-}

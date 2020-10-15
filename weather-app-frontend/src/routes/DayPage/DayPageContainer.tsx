@@ -1,4 +1,3 @@
-import { NoData } from '@components/ui/NoData/NoData';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import { DayPage } from '@routes/DayPage/DayPage';
 import { useDayWeatherData } from '@routes/DayPage/hooks/useDayWeatherData';
@@ -7,15 +6,14 @@ import { StoreActionType } from '@store/store-types';
 import { DateTime } from 'luxon';
 import React, { FC, useCallback, useContext } from 'react';
 import { useDebounce } from 'use-debounce';
-import { DEBOUNCE_TIME_MS } from '../../constants/common.constants';
+import { DEBOUNCE_TIME_MS } from '@constants/common.constants';
 
 export const DayPageContainer: FC = () => {
   const minDate = DateTime.local().startOf('month');
   const maxDate = DateTime.local().endOf('month');
   const { state, dispatch } = useContext(store);
   const [debouncedCity] = useDebounce(state.city, DEBOUNCE_TIME_MS);
-  const [debouncedDate] = useDebounce(state.date, DEBOUNCE_TIME_MS);
-  const { isError, isLoadingWeather, weather } = useDayWeatherData({ date: debouncedDate.toISO(), city: debouncedCity });
+  const { isError, isLoadingWeather, weather } = useDayWeatherData({ date: state.date.toISO(), city: debouncedCity });
 
   const handleDateChange = useCallback(
     (pickerDate: MaterialUiPickersDate) => {
@@ -24,10 +22,6 @@ export const DayPageContainer: FC = () => {
     [dispatch],
   );
 
-  if (isError) {
-    return <NoData />;
-  }
-
   return (
     <DayPage
       weather={weather}
@@ -35,6 +29,7 @@ export const DayPageContainer: FC = () => {
       maxDate={maxDate}
       date={state.date}
       isLoadingWeather={isLoadingWeather}
+      isError={isError}
       onDateChange={handleDateChange}
     />
   );

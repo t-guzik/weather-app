@@ -3,9 +3,11 @@ import { initReactI18next } from 'react-i18next';
 import { Environment } from '@enums/environment.enum';
 import { Language } from '@enums/language.enum';
 import { LocalesEN } from './en';
+import { Settings } from 'luxon';
 
 const { NODE_ENV } = process.env;
 const isDevelopment = NODE_ENV === Environment.Development;
+Settings.defaultLocale = Language.EN;
 
 // tslint:disable-next-line:no-async-without-await, no-floating-promises
 (async () =>

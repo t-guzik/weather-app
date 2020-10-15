@@ -1,8 +1,8 @@
 import { ResourceLanguage } from 'i18next';
 
 export interface LocalesInterface extends ResourceLanguage {
-  main: MainLocales;
   errors: ErrorsLocales;
+  main: MainLocales;
 }
 
 export interface ErrorsLocales {
@@ -12,10 +12,17 @@ export interface ErrorsLocales {
 }
 
 export interface MainLocales {
-  singleDayForecast: string;
-  fiveDayForecast: string;
-  goTo: string;
+  airPressure: string;
   city: string;
   dateInMonth: string;
+  fiveDayForecast: string;
+  goTo: string;
+  humidity: string;
+  maxTemperature: string;
+  minTemperature: string;
   noData: string;
+  predictability: string;
+  singleDayForecast: string;
+  windDirection: string;
+  windSpeed: string;
 }

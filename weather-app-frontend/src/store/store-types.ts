@@ -10,7 +10,7 @@ export interface DispatchData {
   type: StoreActionType;
 }
 
-export type Dispatch = (data: DispatchData) => any;
+export type Dispatch = (data: DispatchData) => void;
 
 export interface AppContext {
   dispatch: Dispatch;

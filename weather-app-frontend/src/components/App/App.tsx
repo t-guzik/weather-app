@@ -1,16 +1,41 @@
-import { TopBar } from '@components/TopBar/TopBar';
+import { TopBar } from '@components/ui/TopBar';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import React, { FC } from 'react';
-import style from './App.module.scss';
 import { Routes } from '@routes/Routes';
 
+const useStyles = makeStyles(({ palette, spacing, breakpoints, mixins, overrides }) => ({
+  root: {
+    background: palette.background.default,
+    width: '100%',
+    height: '100%',
+  },
+  content: {
+    [breakpoints.down('sm')]: {
+      padding: `${spacing(2)}px 0`,
+    },
+    [breakpoints.up('sm')]: {
+      padding: `${spacing(4)}px`,
+    },
+    [breakpoints.up('md')]: {
+      padding: `${spacing(4)}px ${spacing(6)}px`,
+    },
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    overflow: 'auto',
+    height: `calc(100vh - ${spacing(8)}px)`,
+  },
+}));
+
 export const App: FC = () => {
+  const classes = useStyles();
+
   return (
-    <div className={style.container}>
+    <div className={classes.root}>
       <TopBar />
-      <div style={{ padding: '2rem 5rem' }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <Routes />
-        </div>
+      <div className={classes.content}>
+        <Routes />
       </div>
     </div>
   );

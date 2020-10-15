@@ -3,7 +3,6 @@ import { createMuiTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
 import { StateProvider } from '@store/store';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.module.scss';
 import './locales/i18n';
 import { AppContainer } from '@components/App/AppContainer';
 import { captureError } from '@errors/utils/capture-error';
@@ -13,7 +12,9 @@ import { BrowserRouter } from 'react-router-dom';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import primary from '@material-ui/core/colors/amber';
 import secondary from '@material-ui/core/colors/grey';
+import './index.css';
 
+const queryCache = new QueryCache();
 const queryConfig: ReactQueryConfig = {
   queries: {
     refetchOnWindowFocus: false,
@@ -22,8 +23,6 @@ const queryConfig: ReactQueryConfig = {
   },
   mutations: { onError: captureError },
 };
-
-const queryCache = new QueryCache();
 
 const darkTheme = createMuiTheme({
   palette: {

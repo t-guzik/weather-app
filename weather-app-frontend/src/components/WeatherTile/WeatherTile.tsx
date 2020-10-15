@@ -1,87 +1,56 @@
+import { WeatherDescription } from '@components/WeatherTile/WeatherDescription';
+import { IconType } from '@enums/icon-type.enum';
 import { useTranslation } from '@hooks/useTranslation';
 import { CardContent, CardHeader, Card, CardMedia } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { DateTime } from 'luxon';
-import React, { CSSProperties, FC, useState } from 'react';
-import { Weather } from '../../types/api-types';
-import { Typography } from '@components/ui/Typography/Typography';
+import React, { FC } from 'react';
+import { Weather } from '@apiTypes';
 
 interface Props {
   weather: Weather;
 }
 
-const useStyles = makeStyles(theme => ({
+export const WEATHER_TILE_WIDTH = 300;
+
+const useStyles = makeStyles(({ spacing }) => ({
   root: {
-    width: 300,
-    margin: 20,
+    width: WEATHER_TILE_WIDTH,
+    margin: spacing(3),
   },
   media: { height: 100, backgroundSize: 'contain' },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
+  tempHeader: { textAlign: 'center' },
+  lastDescription: { marginBottom: 0 },
 }));
 
-interface DescriptionProps {
-  name: string;
-  iconName?: string;
-  iconRotate?: number;
-  value?: string | number;
-  unit?: string;
-  style?: CSSProperties;
-}
-
-const Description: FC<DescriptionProps> = ({ iconName, value, name, unit, iconRotate, style = {} }) => {
-  return (
-    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '.5rem', ...style }}>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        {iconName && (
-          <img
-            alt={name}
-            src={`/icons/${iconName}.svg`}
-            width={20}
-            style={{ marginRight: '1rem', transform: iconRotate ? `rotate(${iconRotate}deg)` : undefined }}
-          />
-        )}
-        <Typography variant='caption'>{name}</Typography>
-      </div>
-      {value && <Typography variant='caption'>{`${value}${unit ? ` ${unit}` : ''}`}</Typography>}
-    </div>
-  );
-};
-
 export const WeatherTile: FC<Props> = ({ weather }) => {
+  const { t } = useTranslation('main');
   const classes = useStyles();
+
   const temp = weather?.avgTemp ? Math.round(weather?.avgTemp) : '-';
   const minTemp = weather?.minTemp ? Math.round(weather?.minTemp) : '-';
   const maxTemp = weather?.maxTemp ? Math.round(weather?.maxTemp) : '-';
   const airPressure = weather?.airPressure ? Math.round(weather?.airPressure) : '-';
+  const dayOfWeek = DateTime.fromISO(weather.date).toFormat('cccc');
 
   return (
     <Card className={classes.root}>
-      <CardHeader title={DateTime.fromISO(weather.date).toFormat('cccc')} subheader={weather.city} />
+      <CardHeader title={dayOfWeek} subheader={weather.city} />
       <CardMedia image={weather.iconUrl} className={classes.media} title={weather.state} />
-      <CardHeader title={`${temp}°C`} style={{ textAlign: 'center' }} subheader={weather.state} />
+      <CardHeader title={`${temp}°C`} className={classes.tempHeader} subheader={weather.state} />
       <CardContent>
-        {/* TODO translations */}
-        <Description name='Predictability' value={weather.predictability} iconName='percentage' unit='%' />
-        <Description name='Air pressure' value={airPressure} iconName='wind' unit='mbar' />
-        <Description name='Humidity' value={weather.humidity} iconName='humidity' unit='%' />
-        <Description name='Min temperature' value={minTemp} iconName='cold-temperature' unit='°C' />
-        <Description name='Max temperature' value={maxTemp} iconName='heat-wave' unit='°C' />
-        <Description name='Wind speed' value={Math.round(weather.windSpeed)} iconName='windsock' unit='mph' />
-        <Description
-          name='Wind direction'
-          iconName='arrow-up'
-          iconRotate={weather.windDirection}
+        <WeatherDescription name={t('predictability')} value={weather.predictability} iconType={IconType.Percentage} unit='%' />
+        <WeatherDescription name={t('airPressure')} value={airPressure} iconType={IconType.Wind} unit='mbar' />
+        <WeatherDescription name={t('humidity')} value={weather.humidity} iconType={IconType.Humidity} unit='%' />
+        <WeatherDescription name={t('minTemperature')} value={minTemp} iconType={IconType.TempMin} unit='°C' />
+        <WeatherDescription name={t('maxTemperature')} value={maxTemp} iconType={IconType.TempMax} unit='°C' />
+        <WeatherDescription name={t('windSpeed')} value={Math.round(weather.windSpeed)} iconType={IconType.Windsock} unit='mph' />
+        <WeatherDescription
+          name={t('windDirection')}
+          iconType={IconType.ArrowUp}
+          iconRotation={weather.windDirection}
           value={weather.windDirectionCompass}
-          style={{ marginBottom: 0 }}
+          className={classes.lastDescription}
         />
       </CardContent>
     </Card>

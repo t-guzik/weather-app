@@ -2,12 +2,14 @@ import { DateTime } from 'luxon';
 import React, { createContext, Reducer, useReducer } from 'react';
 import { AppContext, StoreAction, StoreActionType, StoreState } from './store-types';
 
+const { REACT_APP_DEFAULT_CITY } = process.env;
+
 export const store = createContext<AppContext>({} as AppContext);
 const { Provider } = store;
 
 export const StateProvider = (props: any) => {
   const initialState: StoreState = {
-    city: localStorage.getItem('city') || 'Warsaw',
+    city: localStorage.getItem('city') || REACT_APP_DEFAULT_CITY,
     date: DateTime.local(),
   };
 

@@ -13,7 +13,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
 
     return {
       ...this.configService.getDatabaseConfig(),
-      synchronize: true,
+      synchronize: false,
       migrationsRun: true,
       entities: [__dirname + '/../../**/*.entity{.ts,.js}'],
       migrations: [__dirname + '/../../migration/*{.ts,.js}'],
