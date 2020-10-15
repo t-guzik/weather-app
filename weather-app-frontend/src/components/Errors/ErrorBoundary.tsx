@@ -1,5 +1,5 @@
+import { captureError } from '@errors/utils/capture-error';
 import React, { Component } from 'react';
-import { logger } from '@utils/logger';
 import { Error500 } from './Error500/Error500';
 
 interface Props {
@@ -17,7 +17,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: any) {
-    logger.error(error, info);
+    captureError(error, info);
     this.setState({ hasError: true });
   }
 

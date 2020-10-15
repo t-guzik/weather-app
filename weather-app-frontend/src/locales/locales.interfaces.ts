@@ -16,7 +16,6 @@ export interface MainLocales {
   city: string;
   dateInMonth: string;
   fiveDayForecast: string;
-  goTo: string;
   humidity: string;
   maxTemperature: string;
   minTemperature: string;

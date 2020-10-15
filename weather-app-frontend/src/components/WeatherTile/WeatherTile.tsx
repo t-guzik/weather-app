@@ -32,10 +32,11 @@ export const WeatherTile: FC<Props> = ({ weather }) => {
   const maxTemp = weather?.maxTemp ? Math.round(weather?.maxTemp) : '-';
   const airPressure = weather?.airPressure ? Math.round(weather?.airPressure) : '-';
   const dayOfWeek = DateTime.fromISO(weather.date).toFormat('cccc');
+  const date = DateTime.fromISO(weather.date).toFormat('dd LLLL yyyy');
 
   return (
     <Card className={classes.root}>
-      <CardHeader title={dayOfWeek} subheader={weather.city} />
+      <CardHeader title={dayOfWeek} subheader={`${weather.city}, ${date}`} />
       <CardMedia image={weather.iconUrl} className={classes.media} title={weather.state} />
       <CardHeader title={`${temp}°C`} className={classes.tempHeader} subheader={weather.state} />
       <CardContent>

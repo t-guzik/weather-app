@@ -33,10 +33,11 @@ const useStyles = makeStyles(({ spacing, breakpoints, shape, palette, transition
         backgroundColor: fade(palette.common.white, 0.25),
       },
       marginLeft: 0,
-      width: '100%',
+      flex: 1,
       [breakpoints.up('sm')]: {
         marginLeft: spacing(1),
         width: 'auto',
+        flex: 'unset',
       },
     },
     searchIcon: {
@@ -64,11 +65,11 @@ const useStyles = makeStyles(({ spacing, breakpoints, shape, palette, transition
         },
       },
     },
-    viewSwitch: { display: 'flex', alignItems: 'center' },
-    viewSwitchText: {
-      display: 'none',
-      [breakpoints.up('sm')]: {
-        display: 'block',
+    viewSwitch: {
+      display: 'flex',
+      alignItems: 'center',
+      [breakpoints.down('sm')]: {
+        flex: 1,
       },
     },
     topBar: { minHeight: spacing(8) },
@@ -95,7 +96,7 @@ export const TopBar: FC = () => {
           {APP_NAME}
         </Typography>
         <div className={classes.viewSwitch}>
-          <Typography variant='subtitle2' noWrap className={classes.viewSwitchText}>
+          <Typography variant='subtitle2' noWrap>
             {switchChecked ? t('fiveDayForecast') : t('singleDayForecast')}
           </Typography>
           <Switch checked={switchChecked} onChange={handleViewChange} color='secondary' inputProps={{ 'aria-label': 'view switch' }} />

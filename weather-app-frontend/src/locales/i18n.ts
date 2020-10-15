@@ -5,8 +5,8 @@ import { Language } from '@enums/language.enum';
 import { LocalesEN } from './en';
 import { Settings } from 'luxon';
 
-const { NODE_ENV } = process.env;
-const isDevelopment = NODE_ENV === Environment.Development;
+const { REACT_APP_INSTANCE_NAME } = process.env;
+const isDevelopment = REACT_APP_INSTANCE_NAME === Environment.Development;
 Settings.defaultLocale = Language.EN;
 
 // tslint:disable-next-line:no-async-without-await, no-floating-promises

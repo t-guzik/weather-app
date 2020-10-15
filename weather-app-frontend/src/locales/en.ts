@@ -20,7 +20,6 @@ export class LocalesEN implements LocalesInterface {
     windDirection: 'Wind direction',
     singleDayForecast: 'Single day forecast',
     fiveDayForecast: '5-day forecast',
-    goTo: 'Go to',
     city: 'City...',
     dateInMonth: 'Date',
     noData: 'No data',
