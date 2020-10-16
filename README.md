@@ -4,7 +4,7 @@ Weather App allows checking the weather forecast for a selected city and a singl
 ## Tech Stack
 Weather App API based on [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-Weather App Web based on [CRA](https://create-react-app.dev/) bootstrap with TypeScript template.
+Weather App Web based on [CRA](https://create-react-app.dev/) bootstrap with TypeScript template and [MaterialUI](https://material-ui.com/) components.
 
 
 ## Docker usage
