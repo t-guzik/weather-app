@@ -1,7 +1,8 @@
 import { DeepPartial } from 'typeorm';
-import { ConfigSchemaInterface } from '../config.interfaces';
+import { ConfigSchema } from '../config.interfaces';
 
-export const config: DeepPartial<ConfigSchemaInterface> = {
+export const config: DeepPartial<ConfigSchema> = {
+  debug: false,
   db: {
     database: 'weather_e2e',
   },

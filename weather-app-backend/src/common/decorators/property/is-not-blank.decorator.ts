@@ -1,6 +1,6 @@
 import { registerDecorator, ValidationOptions } from 'class-validator';
 
-export const IsNotBlank = (validationOptions?: ValidationOptions) => (object: object, propertyName: string) => {
+export const IsNotBlank = (validationOptions?: ValidationOptions) => (object: any, propertyName: string) => {
   registerDecorator({
     name: 'isNotBlank',
     target: object.constructor,

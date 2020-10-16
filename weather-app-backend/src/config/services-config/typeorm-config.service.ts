@@ -12,7 +12,9 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
     const isLocal = this.configService.isLocal();
-    const prettyLoggerEnabled = this.configService.isDebug() && this.configService.isLocal();
+    const isTest = this.configService.isTest();
+    const shouldUseSqlite = isLocal || isTest;
+    const prettyLoggerEnabled = this.configService.isDebug() && isLocal;
     const { database, logging, ...restDatabaseConfig } = this.configService.getDatabaseConfig();
 
     const sqliteConfig: SqliteConnectionOptions = {
@@ -27,7 +29,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
     };
 
     return {
-      ...(isLocal ? sqliteConfig : postgresConfig),
+      ...(shouldUseSqlite ? sqliteConfig : postgresConfig),
       logging,
       migrationsRun: false,
       entities: [__dirname + '/../../**/*.entity{.ts,.js}'],

@@ -1,7 +1,7 @@
 import { ResourceKey } from 'i18next';
-import { ErrorsLocales, LocalesInterface, MainLocales } from './locales.interfaces';
+import { ErrorsLocales, Locales, MainLocales } from './locales.interfaces';
 
-export class LocalesEN implements LocalesInterface {
+export class LocalesEN implements Locales {
   [namespace: string]: ResourceKey;
 
   errors: ErrorsLocales = {

@@ -1,6 +1,6 @@
 import { ResourceLanguage } from 'i18next';
 
-export interface LocalesInterface extends ResourceLanguage {
+export interface Locales extends ResourceLanguage {
   errors: ErrorsLocales;
   main: MainLocales;
 }

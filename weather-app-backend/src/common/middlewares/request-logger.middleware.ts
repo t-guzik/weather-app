@@ -6,7 +6,7 @@ import { ConfigService } from '../../config/config.service';
 import { LoggerService } from '../../logger/logger.service';
 import { LogRequestMetadataKey } from '../decorators/method/log-request.decorator';
 
-interface RequestLoggerMetaInterface {
+interface RequestLoggerMeta {
   'User-Agent': IUAParser.IResult;
   Authorization?: string;
   body?: { [key: string]: string };
@@ -30,7 +30,7 @@ export const requestLogger = (loggerService: LoggerService, configService: Confi
       }
 
       const { details: showDetails } = configService.getRequestLoggerConfig();
-      const meta: RequestLoggerMetaInterface = {
+      const meta: RequestLoggerMeta = {
         'User-Agent': new UAParser(request.headers['user-agent']).getResult(),
         ip: request.ip,
         size: fileSize(response._headers['content-length'] || 0),

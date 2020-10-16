@@ -10,6 +10,7 @@ export class MetaWeather implements Weather {
   @PrimaryColumn('date')
   date!: string;
 
+  @Exclude()
   @PrimaryColumn('text')
   query!: string;
 

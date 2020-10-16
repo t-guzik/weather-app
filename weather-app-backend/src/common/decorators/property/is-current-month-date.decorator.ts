@@ -1,13 +1,16 @@
 import { registerDecorator, ValidationOptions } from 'class-validator';
 import { DateTime, Interval } from 'luxon';
 
+export const IsCurrentMonthDateValidatorName = 'isCurrentMonthDate';
+export const IsCurrentMonthDateValidatorMessage = 'The date is not in the current month';
+
 export const IsCurrentMonthDate = (validationOptions?: ValidationOptions) => (object: { [key: string]: any }, propertyName: string) => {
   registerDecorator({
-    name: 'isCurrentMonthDate',
+    name: IsCurrentMonthDateValidatorName,
     target: object.constructor,
     propertyName,
     options: {
-      message: 'The date is not in the current month',
+      message: IsCurrentMonthDateValidatorMessage,
       ...validationOptions,
     },
     validator: {

@@ -1,10 +1,11 @@
 import 'source-map-support/register';
+import 'module-alias/register';
 import { AppModule } from './app.module';
-import { ConfigService } from './config/config.service';
 import { configureGlobalSettings } from './common/bootstrap/global-settings';
 import { configureGracefulShutdownAndHealthChecks } from './common/bootstrap/graceful-shutdown';
 import { configureMiddlewares } from './common/bootstrap/middlewares';
 import { configureSwagger } from './common/bootstrap/swagger';
+import { ConfigService } from './config/config.service';
 import { ExpressAdapter, NestExpressApplication } from '@nestjs/platform-express';
 import { LoggerService } from './logger/logger.service';
 import { NestFactory } from '@nestjs/core';

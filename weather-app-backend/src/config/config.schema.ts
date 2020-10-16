@@ -1,7 +1,7 @@
 import convict, { Schema, SchemaObj } from 'convict';
 import { Environment } from '../common/enums/environment.enum';
 import { CONFIG_DEFAULTS } from './config.constants';
-import { ConfigSchemaInterface, ServerConfig } from './config.interfaces';
+import { ConfigSchema, ServerConfig } from './config.interfaces';
 
 const {
   API_VERSION,
@@ -16,7 +16,7 @@ const {
   WEATHER_FORECAST_DAYS,
 } = CONFIG_DEFAULTS;
 
-const configSchema: Schema<ConfigSchemaInterface> = {
+const configSchema: Schema<ConfigSchema> = {
   cors: {
     origin: {
       doc: 'Configures the Access-Control-Allow-Origin CORS header',

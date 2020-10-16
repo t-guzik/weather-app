@@ -1,6 +1,6 @@
 import { Environment } from '../common/enums/environment.enum';
 
-export interface ConfigSchemaInterface {
+export interface ConfigSchema {
   cors: {
     allowedHeaders?: string;
     methods: string;

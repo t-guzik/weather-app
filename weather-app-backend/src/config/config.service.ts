@@ -3,15 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { Environment } from '../common/enums/environment.enum';
 import { formatError } from '../common/errors/utils/format-error.util';
 import { LoggerService } from '../logger/logger.service';
-import {
-  ConfigSchemaInterface,
-  CorsConfig,
-  DatabaseConfig,
-  LoggerConfig,
-  RequestLoggerConfig,
-  ServerConfig,
-  WeatherConfig,
-} from './config.interfaces';
+import { ConfigSchema, CorsConfig, DatabaseConfig, LoggerConfig, RequestLoggerConfig, ServerConfig, WeatherConfig } from './config.interfaces';
 import { config as configSchema } from './config.schema';
 import * as config from './environments';
 
@@ -113,6 +105,10 @@ export class ConfigService {
     return this.getEnv() === Environment.Local;
   }
 
+  isTest(): boolean {
+    return this.getEnv() === Environment.Test;
+  }
+
   validate(logger: LoggerService): void {
     try {
       this.config.validate({ allowed: 'strict' });
@@ -122,12 +118,11 @@ export class ConfigService {
     }
   }
 
-  private getValue<P1 extends keyof NonNullable<ConfigSchemaInterface>>(prop: P1): NonNullable<ConfigSchemaInterface>[P1];
-  private getValue<
-    P1 extends keyof NonNullable<ConfigSchemaInterface>,
-    // tslint:disable-next-line:max-line-length
-    P2 extends keyof NonNullable<NonNullable<ConfigSchemaInterface>[P1]>
-  >(prop1: P1, prop2: P2): NonNullable<NonNullable<ConfigSchemaInterface>[P1]>[P2];
+  private getValue<P1 extends keyof NonNullable<ConfigSchema>>(prop: P1): NonNullable<ConfigSchema>[P1];
+  private getValue<P1 extends keyof NonNullable<ConfigSchema>, P2 extends keyof NonNullable<NonNullable<ConfigSchema>[P1]>>(
+    prop1: P1,
+    prop2: P2,
+  ): NonNullable<NonNullable<ConfigSchema>[P1]>[P2];
   private getValue(...props: string[]): any {
     return props.reduce((result: any, prop) => (result == null ? undefined : result[prop]), this.config.getProperties());
   }

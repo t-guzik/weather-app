@@ -1,6 +1,5 @@
 /**
  * Typeorm doesn't provide type for QueryFailedError because it is created specifically for used database type.
- * This one should be used for postgres errors.
  */
 export interface QueryFailedErrorInterface {
   code?: string;
@@ -14,5 +13,3 @@ export interface QueryFailedErrorInterface {
   stack?: string;
   table?: string;
 }
-
-// TODO update to sqlite
