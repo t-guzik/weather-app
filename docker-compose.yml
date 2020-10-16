@@ -1,0 +1,44 @@
+version: "3.6"
+
+x-env-aliases:
+  - &NODE_TAG
+    NODE_TAG: "${NODE_TAG:-12.18.3-alpine}"
+  - &DEFAULT_API_ENVS
+    NODE_ENV: "development"
+    DEBUG: "false"
+    ENV: "development"
+    DATABASE_HOST: "db"
+    DATABASE_NAME: "weather"
+    DATABASE_USERNAME: "weather"
+    DATABASE_PASSWORD: "weather"
+    DATABASE_SYNC: "true"
+    REQUEST_LOGGER_ENABLED: "true"
+    WEATHER_API_URL: "https://www.metaweather.com/api"
+  - &DEFAULT_POSTGRES_ENVS
+    PGDATA: "/var/lib/postgresql/data/pgdata"
+    POSTGRES_DB: "weather"
+    POSTGRES_PASSWORD: "weather"
+    POSTGRES_USER: "weather"
+
+services:
+  api:
+    build:
+      context: weather-app-backend
+      target: ${API_TARGET:-api}
+      args:
+        <<: *NODE_TAG
+    environment:
+      <<: *DEFAULT_API_ENVS
+    depends_on:
+      - db
+
+  db:
+    image: "postgres:11.7"
+    volumes:
+      - db_data:/var/lib/postgresql/data/pgdata
+    restart: always
+    environment:
+      <<: *DEFAULT_POSTGRES_ENVS
+
+volumes:
+  db_data: {}

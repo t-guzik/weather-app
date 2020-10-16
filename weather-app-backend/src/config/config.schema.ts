@@ -48,6 +48,30 @@ const configSchema: Schema<ConfigSchemaInterface> = {
       default: null,
       env: 'DATABASE_NAME',
     },
+    password: {
+      doc: 'Database password',
+      format: String,
+      default: null,
+      env: 'DATABASE_PASSWORD',
+    },
+    username: {
+      doc: 'Database username',
+      format: String,
+      default: null,
+      env: 'DATABASE_USERNAME',
+    },
+    synchronize: {
+      doc: 'Database synchronization',
+      format: Boolean,
+      default: null,
+      env: 'DATABASE_SYNC',
+    },
+    host: {
+      doc: 'Database host',
+      format: String,
+      default: null,
+      env: 'DATABASE_HOST',
+    },
   },
   debug: {
     doc: 'Runs application in debug mode (additional logs)',

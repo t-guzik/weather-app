@@ -1,10 +1,17 @@
 import 'dotenv/config';
 import { Injectable } from '@nestjs/common';
-import { SqliteConnectionOptions } from 'typeorm/driver/sqlite/SqliteConnectionOptions';
 import { Environment } from '../common/enums/environment.enum';
 import { formatError } from '../common/errors/utils/format-error.util';
 import { LoggerService } from '../logger/logger.service';
-import { ConfigSchemaInterface, CorsConfig, LoggerConfig, RequestLoggerConfig, ServerConfig, WeatherConfig } from './config.interfaces';
+import {
+  ConfigSchemaInterface,
+  CorsConfig,
+  DatabaseConfig,
+  LoggerConfig,
+  RequestLoggerConfig,
+  ServerConfig,
+  WeatherConfig,
+} from './config.interfaces';
 import { config as configSchema } from './config.schema';
 import * as config from './environments';
 
@@ -47,11 +54,14 @@ export class ConfigService {
     };
   }
 
-  getDatabaseConfig(): SqliteConnectionOptions {
+  getDatabaseConfig(): DatabaseConfig {
     return {
-      type: 'sqlite',
       database: this.getValue('db', 'database'),
+      username: this.getValue('db', 'username'),
+      password: this.getValue('db', 'password'),
       logging: this.isDebug(),
+      synchronize: this.getValue('db', 'synchronize'),
+      host: this.getValue('db', 'host'),
     };
   }
 

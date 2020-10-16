@@ -1,4 +1,3 @@
-import { SqliteConnectionOptions } from 'typeorm/driver/sqlite/SqliteConnectionOptions';
 import { Environment } from '../common/enums/environment.enum';
 
 export interface ConfigSchemaInterface {
@@ -7,7 +6,7 @@ export interface ConfigSchemaInterface {
     methods: string;
     origin: string;
   };
-  db: Omit<SqliteConnectionOptions, 'type'>;
+  db: Omit<DatabaseConfig, 'logging'>;
   debug: boolean;
   env: Environment;
   gracefulShutdown: {
@@ -47,4 +46,13 @@ export interface WeatherConfig {
   cacheTtlMs: number;
   apiUrl: string;
   forecastDays: number;
+}
+
+export interface DatabaseConfig {
+  database: string;
+  username: string;
+  password: string;
+  logging: boolean;
+  synchronize: boolean;
+  host: string;
 }

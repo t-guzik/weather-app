@@ -3,7 +3,7 @@ import { ConfigSchemaInterface } from '../config.interfaces';
 
 export const config: DeepPartial<ConfigSchemaInterface> = {
   db: {
-    database: 'weather-db-e2e',
+    database: 'weather_db_e2e',
   },
   logger: {
     enabled: false,
