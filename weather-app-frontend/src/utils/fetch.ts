@@ -5,6 +5,7 @@ import { captureError } from '@errors/utils/capture-error';
 export declare type FetchErrorResponse = AxiosError<ErrorResponse>;
 
 const { REACT_APP_API_URL } = process.env;
+console.log(REACT_APP_API_URL);
 const fetchConfig: AxiosRequestConfig = {
   baseURL: REACT_APP_API_URL,
   headers: {
