@@ -1,5 +1,4 @@
 import 'source-map-support/register';
-import 'module-alias/register';
 import { AppModule } from './app.module';
 import { configureGlobalSettings } from './common/bootstrap/global-settings';
 import { configureGracefulShutdownAndHealthChecks } from './common/bootstrap/graceful-shutdown';
