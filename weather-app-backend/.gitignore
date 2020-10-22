@@ -35,3 +35,6 @@ lerna-debug.log*
 
 weather
 weather_e2e
+
+.env*
+!.env.example
